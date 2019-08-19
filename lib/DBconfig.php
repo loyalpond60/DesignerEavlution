@@ -6,7 +6,7 @@ class DB
 	static function connect(){
 		$db_ip="127.0.0.1";
 		$db_user="root";
-		$db_password="";
+		$db_password="pomelo8911285";
 		$db_select="DesignerEavluation";
 		$db_charset = "UTF8";
 

@@ -100,9 +100,9 @@ class HydroelectricWidget extends Widget
                     </tr>
                 </thead>
                 <tbody>
-                    <form action='setRoomSize.php' method="post">
+                    <form action='setRoomCeiling.php' method="post">
 HTML;
-        $order=new Order;
+        $order=new Hydroelectric;
         $roomList=$order->getRoom();
         foreach ($roomList as $row) {
             $msg.="

@@ -1,7 +1,7 @@
 <?php
 require_once("vendor/autoload.php");
 
-class Order
+class Hydroelectric
 {
     private $orderNum;
     public function __construct(){
@@ -19,14 +19,14 @@ class Order
         $result->execute();
         return $result;
     }
-    public function setCeiling($roomNum,$key,$value){
-        $sql="SELECT COUNT(*) FROM `hydroelectricCeiling` WHERE `id`='$roomNum'";
-        $result=DB::connect()->prepare($sql);
-        $result->execute();
-        $ans=$result->fetch();
-        if($ans==0)
-    //        $sql="INSERT INTO `hydroelectricCeiling`(`id`, `roomID`, `length`, `width`, `price`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])"
-        echo $sql;
+    public function setItem(IItem $item){
+        if(!empty($item->getLength()) && !empty($item->getLength())){
+        if($item->getName()=="Ceiling" || $item->getName()=="Floor"){
+            $sql="INSERT INTO `hydroelectric{$item->getName()}`(`id`, `roomID`, `length`, `width`)
+                VALUES (NULL,{$item->getRoomNum()},{$item->getLength()},{$item->getWidth()})";
+        }
+        echo $sql."<br>";
+        }
     }
 }
 ?>
