@@ -11,6 +11,7 @@ return array(
     'Ceiling' => $baseDir . '/lib/RoomItem.php',
     'DB' => $baseDir . '/lib/DBconfig.php',
     'Factory' => $baseDir . '/lib/factory.php',
+    'Floor' => $baseDir . '/lib/RoomItem.php',
     'HeadDecorator' => $baseDir . '/lib/Decorator.php',
     'Hydroelectric' => $baseDir . '/lib/Hydroelectric.php',
     'HydroelectricClient' => $baseDir . '/lib/stu_ClientOrder.php',

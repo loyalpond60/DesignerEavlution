@@ -7,8 +7,8 @@
         if($key_value[1]=="length"){
             $length=$value;
         }else{
-            $ceiling=new Ceiling($key_value[0],$length,$value);
-            $order->setItem($ceiling);
+            $floor=new Floor($key_value[0],$length,$value);
+            $order->setItem($floor);
         }
         //$order->setCeiling($key_value[0],$key_value[1],$value);
     }

@@ -74,8 +74,14 @@ class HydroelectricWidget extends Widget
     public function draw(){
         return $this->msg();
     }
-
     private function msg(){
+        $msg=$this->addRoomWidget();
+        $msg.=$this->setRoomCeilingTable();
+        $msg.=$this->setRoomFloorTable();
+
+        return $msg;
+    }
+    private function addRoomWidget(){
         $msg=<<<HTML
             <h1>水電工程專區</h1>
             <hr>
@@ -86,6 +92,14 @@ class HydroelectricWidget extends Widget
                 房間名稱：<input type="text" name="roomName">
                 <input type="submit" value="新增">
             </form><br>
+
+HTML;
+    return $msg;
+    }
+    private function setRoomCeilingTable(){
+        $msg=<<<HTML
+
+        <form action='setRoomCeiling.php' method="post">
             <hr>
             <h2>填寫尺寸</h2>
             <h3>天花板</h3>
@@ -100,23 +114,128 @@ class HydroelectricWidget extends Widget
                     </tr>
                 </thead>
                 <tbody>
-                    <form action='setRoomCeiling.php' method="post">
 HTML;
         $order=new Hydroelectric;
         $roomList=$order->getRoom();
+        $itemValue=$order->getItem("Ceiling",$_GET['order']);
+
         foreach ($roomList as $row) {
             $msg.="
             <tr>
                 <td>{$row['name']}</td>
                 <td><input type='text' name='{$row['id']}_length'></td>
                 <td><input type='text' name='{$row['id']}_width'></td>
-                <td></td>
-                <td></td>
+            ";
+            foreach ($itemValue as $item) {
+                if($item->getRoomNum()==$row['id']){
+                    $msg.= "<td>{$item->getLength()}</td>";
+                    $msg.= "<td>{$item->getWidth()}</td>";
+                }
+            }
+            $msg.="
             </tr>
             ";
         }
         $msg.="
-                <input type='submit' value='送出'>
+                <tr>
+                    <td><input type='submit' value='送出'></td>
+                </tr>
+            </form>
+        </table>";
+        return $msg;
+    }
+    private function setRoomFloorTable(){
+        $msg=<<<HTML
+
+        <form action='setRoomFloor.php' method="post">
+            <hr>
+            <h2>填寫尺寸</h2>
+            <h3>木地板</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>位置</th>
+                        <th>長度</th>
+                        <th>寬度</th>
+                        <th>m^2</th>
+                        <th>P</th>
+                    </tr>
+                </thead>
+                <tbody>
+HTML;
+        $order=new Hydroelectric;
+        $roomList=$order->getRoom();
+        $itemValue=$order->getItem("Floor",$_GET['order']);
+
+        foreach ($roomList as $row) {
+            $msg.="
+            <tr>
+                <td>{$row['name']}</td>
+                <td><input type='text' name='{$row['id']}_length'></td>
+                <td><input type='text' name='{$row['id']}_width'></td>
+            ";
+            foreach ($itemValue as $item) {
+                if($item->getRoomNum()==$row['id']){
+                    $msg.= "<td>{$item->getLength()}</td>";
+                    $msg.= "<td>{$item->getWidth()}</td>";
+                }
+            }
+            $msg.="
+            </tr>
+            ";
+        }
+        $msg.="
+                <tr>
+                    <td><input type='submit' value='送出'></td>
+                </tr>
+            </form>
+        </table>";
+        return $msg;
+    }
+    private function setRoomItemTable(){
+        $msg=<<<HTML
+
+        <form action='setRoomFloor.php' method="post">
+            <hr>
+            <h2>填寫尺寸</h2>
+            <h3>木地板</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>位置</th>
+                        <th>長度</th>
+                        <th>寬度</th>
+                        <th>m^2</th>
+                        <th>P</th>
+                    </tr>
+                </thead>
+                <tbody>
+HTML;
+        $order=new Hydroelectric;
+        $roomList=$order->getRoom();
+        $itemValue=$order->getItem("Floor",$_GET['order']);
+
+        foreach ($roomList as $row) {
+            $msg.="
+            <tr>
+                <td>{$row['name']}</td>
+                <td><input type='text' name='{$row['id']}_length'></td>
+                <td><input type='text' name='{$row['id']}_width'></td>
+            ";
+            foreach ($itemValue as $item) {
+                if($item->getRoomNum()==$row['id']){
+                    $msg.= "<td>{$item->getLength()}</td>";
+                    $msg.= "<td>{$item->getWidth()}</td>";
+                }
+            }
+            $msg.="
+            </tr>
+            ";
+        }
+        $msg.="
+                <tr>
+                    <td><input type='submit' value='送出'></td>
+                </tr>
             </form>
         </table>";
         return $msg;

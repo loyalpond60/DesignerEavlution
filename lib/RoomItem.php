@@ -53,4 +53,19 @@ class Ceiling extends Sundries
     }
 }
 
+class Floor extends Sundries
+{
+    protected $width;
+
+    function __construct($roomNum,$length,$width)
+    {
+        $this->name="Floor";
+        $this->roomNum=$roomNum;
+        $this->length=$length;
+        $this->width=$width;
+    }
+    public function getWidth(){
+        return $this->width;
+    }
+}
  ?>

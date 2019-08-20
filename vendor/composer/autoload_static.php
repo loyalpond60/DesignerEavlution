@@ -34,6 +34,7 @@ class ComposerStaticInit2c6da7ab0129dcb851c0fcd2d8071510
         'Ceiling' => __DIR__ . '/../..' . '/lib/RoomItem.php',
         'DB' => __DIR__ . '/../..' . '/lib/DBconfig.php',
         'Factory' => __DIR__ . '/../..' . '/lib/factory.php',
+        'Floor' => __DIR__ . '/../..' . '/lib/RoomItem.php',
         'HeadDecorator' => __DIR__ . '/../..' . '/lib/Decorator.php',
         'Hydroelectric' => __DIR__ . '/../..' . '/lib/Hydroelectric.php',
         'HydroelectricClient' => __DIR__ . '/../..' . '/lib/stu_ClientOrder.php',
