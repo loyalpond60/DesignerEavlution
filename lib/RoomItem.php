@@ -1,4 +1,10 @@
 <?php
+/**
+ *  訂定item interface
+ *  Sundries雜物
+ *  ceiling,floor訂定天花板地板
+ *  extends增加其他項
+*/
 interface IItem
 {
     //private $name;
@@ -17,12 +23,14 @@ class Sundries implements IItem
     protected $name;
     protected $roomNum;
     protected $length;
+    protected $price;
 
-    public function __construct($roomNum,$name,$length){
-        $this->$roomNum=$roomNum;
+    public function __construct($roomNum,$name,$length,$price){
+        $this->roomNum=$roomNum;
         $this->name=$name;
         $this->length=$length;
-
+        $this->price=$price;
+        //echo "roomNum".$this->roomNum."<br>";
     }
     public function getName(){
         return $this->name;
@@ -32,6 +40,9 @@ class Sundries implements IItem
     }
     public function getLength(){
         return $this->length;
+    }
+    public function getPrice(){
+        return $this->price;
     }
 }
 /**

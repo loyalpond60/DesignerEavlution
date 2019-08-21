@@ -78,6 +78,7 @@ class HydroelectricWidget extends Widget
         $msg=$this->addRoomWidget();
         $msg.=$this->setRoomCeilingTable();
         $msg.=$this->setRoomFloorTable();
+        $msg.=$this->setRoomItemTable();
 
         return $msg;
     }
@@ -193,44 +194,52 @@ HTML;
         return $msg;
     }
     private function setRoomItemTable(){
-        $msg=<<<HTML
+        $order=new Hydroelectric;
+        $itemValue=$order->getItem("Item",$_GET['order']);
+        $msg="<hr>
+        <h2>新增耗材</h2>";
+        $roomList=$order->getRoom();
+        foreach ($itemValue as $row) {
+            foreach($roomList as $roomRow){
+                //print_r($roomRow);
+                if($roomRow['id']==$row->getRoomNum()){
+                    $msg.= $roomRow['name'];
+                }
+            }
+            $msg.="+{$row->getName()}+{$row->getLength()}+{$row->getPrice()}";
+        }
+        $msg.=<<<HTML
 
-        <form action='setRoomFloor.php' method="post">
-            <hr>
-            <h2>填寫尺寸</h2>
-            <h3>木地板</h3>
+        <form action='setRoomItem.php' method="post">
             <table border="1">
                 <thead>
                     <tr>
-                        <th>位置</th>
-                        <th>長度</th>
-                        <th>寬度</th>
-                        <th>m^2</th>
-                        <th>P</th>
+                        <th>施工位置</th>
+                        <th>名稱</th>
+                        <th>尺寸</th>
+                        <th>單價</th>
                     </tr>
                 </thead>
                 <tbody>
 HTML;
-        $order=new Hydroelectric;
-        $roomList=$order->getRoom();
-        $itemValue=$order->getItem("Floor",$_GET['order']);
 
-        foreach ($roomList as $row) {
+        for($i=0;$i<5;$i++){
+            $roomList=$order->getRoom();
             $msg.="
-            <tr>
-                <td>{$row['name']}</td>
-                <td><input type='text' name='{$row['id']}_length'></td>
-                <td><input type='text' name='{$row['id']}_width'></td>
-            ";
-            foreach ($itemValue as $item) {
-                if($item->getRoomNum()==$row['id']){
-                    $msg.= "<td>{$item->getLength()}</td>";
-                    $msg.= "<td>{$item->getWidth()}</td>";
-                }
+                <tr>
+                    <td>
+                        <select name='{$i}_roomNum'>";
+
+            foreach ($roomList as $row) {
+                $msg.="<option value=\"{$row['id']}\">{$row['name']}</option>";
             }
             $msg.="
-            </tr>
-            ";
+                        </select>
+                    </td>
+                    <td><input type='text' name='{$i}_name'></td>
+                    <td><input type='text' name='{$i}_size'></td>
+                    <td><input type='text' name='{$i}_price'></td>
+                </tr>";
         }
         $msg.="
                 <tr>

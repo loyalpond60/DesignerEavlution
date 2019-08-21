@@ -23,8 +23,10 @@ class Hydroelectric
     private function is_Item($roomID,$name){
         if($name=="Ceiling"||$name=="Floor"){
             $sql="SELECT COUNT(*) FROM `hydroelectric$name` WHERE `roomID`=$roomID";
+//            echo $sql;
         }else{
-
+            $sql="SELECT COUNT(*) FROM `hydroelectricItem` WHERE `roomID`='$roomID' AND `name`='$name'";
+            //echo $sql;
         }
         $result=DB::connect()->prepare($sql);
         $result->execute();
@@ -41,9 +43,16 @@ class Hydroelectric
                 echo $this->is_Item($item->getRoomNum(),$item->getName())."<br><br>";
                 if($item->getName()=="Ceiling" || $item->getName()=="Floor"){
                     $sql="INSERT INTO `hydroelectric{$item->getName()}`(`id`, `roomID`, `length`, `width`)
-                        VALUES (NULL,{$item->getRoomNum()},{$item->getLength()},{$item->getWidth()})";
+                        VALUES (NULL,'{$item->getRoomNum()}',
+                                     '{$item->getLength()}',
+                                     '{$item->getWidth()}')";
                 }else{
-                    // ITEM
+                    $sql="INSERT INTO `hydroelectricItem`(`id`, `roomID`,`name`, `length`,`price`)
+                        VALUES (NULL,'{$item->getRoomNum()}',
+                                     '{$item->getName()}',
+                                     '{$item->getLength()}',
+                                     '{$item->getPrice()}')";
+
                 }
             }else{
                 echo $this->is_Item($item->getRoomNum(),$item->getName())."<br><br>";
@@ -53,6 +62,11 @@ class Hydroelectric
                             `width` ='{$item->getWidth()}'
                         WHERE `roomID`={$item->getRoomNum()}";
                 }else{
+                    $sql="UPDATE `hydroelectricItem`
+                        SET `length`='{$item->getLength()}',
+                            `price` ='{$item->getPrice()}'
+                        WHERE `roomID`='{$item->getRoomNum()}'
+                            AND `name`='{$item->getName()}'";
                     // ITEM
                 }
             }
@@ -70,8 +84,20 @@ class Hydroelectric
             $result->execute(array('orderNum'=>$orderNum));
             $itemValue=array();
             foreach($result as $row){
-
                 $tempItem=new $item($row['roomID'],$row['length'],$row['width']);
+                array_push($itemValue,$tempItem);
+            }
+        }else{
+            $sql="SELECT * FROM `hydroelectric$item`,`room`
+                WHERE `hydroelectric$item`.`roomID`=`room`.`id`
+                AND `room`.`orderNum`=:orderNum";
+            $result=DB::connect()->prepare($sql);
+            $result->execute(array('orderNum'=>$orderNum));
+            $itemValue=array();
+            foreach($result as $row){
+                //print_r($row);
+                //echo $row['roomID'];
+                $tempItem=new Sundries($row['roomID'],$row[2],$row['length'],$row['price']);
                 array_push($itemValue,$tempItem);
             }
         }
