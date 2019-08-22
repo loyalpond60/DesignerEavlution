@@ -24,8 +24,25 @@ class OrderListWidget extends Widget
     public function draw(){
         return $this->msg();
     }
-
     private function msg(){
+        $msg=$this->orderList();
+        $msg.=$this->addOrderTable();
+        return $msg;
+    }
+    private function addOrderTable(){
+        $msg="
+        <br>
+        <hr>
+        <h1>新增訂單</h1>
+        <form method='post' action='addOrder.php'>
+            單號：<input type='text' name='orderNum'><br>
+            名稱：<input type='text' name='name'><br>
+            <input type='submit' value='新增'>
+        </form>
+        ";
+        return $msg;
+    }
+    private function orderList(){
         $msg="";
         $system=new System;
         $result=$system->get_OrderList();
@@ -52,6 +69,7 @@ HTML;
         $msg.="</tbody></table>";
         return $msg;
     }
+
 }
 class OrderWidget extends Widget
 {
@@ -198,15 +216,16 @@ HTML;
         $itemValue=$order->getItem("Item",$_GET['order']);
         $msg="<hr>
         <h2>新增耗材</h2>";
-        $roomList=$order->getRoom();
+
         foreach ($itemValue as $row) {
+            $roomList=$order->getRoom();
             foreach($roomList as $roomRow){
                 //print_r($roomRow);
                 if($roomRow['id']==$row->getRoomNum()){
                     $msg.= $roomRow['name'];
                 }
             }
-            $msg.="+{$row->getName()}+{$row->getLength()}+{$row->getPrice()}";
+            $msg.="+{$row->getName()}+{$row->getLength()}+{$row->getPrice()}<br>";
         }
         $msg.=<<<HTML
 
