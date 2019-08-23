@@ -128,6 +128,8 @@ HTML;
                         <th>位置</th>
                         <th>長度</th>
                         <th>寬度</th>
+                        <th>長度</th>
+                        <th>寬度</th>
                         <th>m^2</th>
                         <th>P</th>
                     </tr>
@@ -149,6 +151,12 @@ HTML;
                 if($item->getRoomNum()==$row['id']){
                     $msg.= "<td>{$item->getLength()}</td>";
                     $msg.= "<td>{$item->getWidth()}</td>";
+                    $msg.= "<td>";
+                        $msg.= $item->getWidth()*$item->getLength();
+                    $msg.= "</td>";
+                    $msg.= "<td>";
+                        $msg.= ($item->getWidth()*$item->getLength())*0.3025;
+                    $msg.= "</td>";
                 }
             }
             $msg.="
@@ -176,6 +184,8 @@ HTML;
                         <th>位置</th>
                         <th>長度</th>
                         <th>寬度</th>
+                        <th>長度</th>
+                        <th>寬度</th>
                         <th>m^2</th>
                         <th>P</th>
                     </tr>
@@ -197,6 +207,12 @@ HTML;
                 if($item->getRoomNum()==$row['id']){
                     $msg.= "<td>{$item->getLength()}</td>";
                     $msg.= "<td>{$item->getWidth()}</td>";
+                    $msg.= "<td>";
+                        $msg.= $item->getWidth()*$item->getLength();
+                    $msg.= "</td>";
+                    $msg.= "<td>";
+                        $msg.= ($item->getWidth()*$item->getLength())*0.3025;
+                    $msg.= "</td>";
                 }
             }
             $msg.="
